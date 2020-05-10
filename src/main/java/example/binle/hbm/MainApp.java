@@ -11,7 +11,7 @@ import java.util.List;
 public class MainApp {
     public static void main(String[] args) {
 //        Session session = HibernateUtil.getSessionFactory().openSession();
-        Session session = HibernateCfgUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilWithCfgXml.getSessionFactory().openSession();
         session.beginTransaction();
 
         // Check database version
@@ -28,7 +28,10 @@ public class MainApp {
 
         // do some meaningful transaction
 
-        saveData();
+//        saveData();
+
+        HibernateDataService hds = HibernateDataService.getInstance();
+        hds.saveCompany();
 
         System.out.println("--- separation between individual transactions ---");
 
@@ -36,11 +39,11 @@ public class MainApp {
 
 
 //        HibernateUtil.shutdown();
-        HibernateCfgUtil.shutdown();
+        HibernateUtilWithCfgXml.shutdown();
     }
 
     protected static void saveData() {
-        Session session = HibernateCfgUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilWithCfgXml.getSessionFactory().openSession();
         session.beginTransaction();
 
         saveEmployeeData(session);
@@ -50,7 +53,7 @@ public class MainApp {
     }
 
     protected static void queryData() {
-        Session session = HibernateCfgUtil.getSessionFactory().openSession();
+        Session session = HibernateUtilWithCfgXml.getSessionFactory().openSession();
         session.beginTransaction();
 
         queryEmployeeData(session);

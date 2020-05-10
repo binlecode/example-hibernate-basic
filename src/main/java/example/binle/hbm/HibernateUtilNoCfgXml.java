@@ -12,7 +12,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 /**
  * this util class is to create hibernate sessionFactory without using hibernate.cfg.xml
  */
-public class HibernateUtil {
+public class HibernateUtilNoCfgXml {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
 
@@ -26,18 +26,10 @@ public class HibernateUtil {
 
                 // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Map<String, String> settings = new HashMap<>();
-//                settings.put("hibernate.connection.driver_class", "org.postgresql.Driver");
-//                settings.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/BORAJI");
-//                settings.put("hibernate.connection.username", "postgres");
-//                settings.put("hibernate.connection.password", "admin");
-//                settings.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
-
+//
                 settings.put("hibernate.connection.driver_class", "org.h2.Driver");
                 settings.put("hibernate.connection.url", "jdbc:h2:./testDb;MODE=MYSQL;DATABASE_TO_LOWER=TRUE");
-                // url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
                 settings.put("hibernate.connection.username", "sa");
-//                settings.put("hibernate.connection.password", "sa");
-//                settings.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
                 settings.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 
                 // Apply settings
