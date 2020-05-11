@@ -31,6 +31,18 @@ This is the purpose of `org.hibernate.boot.MetadataSources`.
 
 Final step in native bootstrapping is to build the SessionFactory.
 
+## Connection provider
+
+Hibernate connects to database by either connection provider or dataSource.
+
+The ConnectionProvider to use is defined by the `hibernate.connection.provider_class` property,
+which is usually not customized. 
+If not set, by default Hibernate will use its built-in connection pool (not recommended for production).
+This example uses Hibernate built-in pool.
+
+To set dataSource instead, use `hibernate.connection.datasource` property.
+Do remember to set `hibernate.connection.driver_class` to map to related driver class name.
+
 ## Exception handling
 
 A note of exception handling: as a rule of thumb, no exception thrown by Hibernate can be treated as recoverable. 
