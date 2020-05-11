@@ -5,11 +5,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>example.binle</groupId>
-  <artifactId>example-hibernate-basic</artifactId>
+  <artifactId>example-hibernate-native</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>basic-hibernate</name>
+  <name>native-hibernate-bootstrap</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,6 +23,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       <version>1.4.200</version>
 <!--       <scope>runtime</scope>-->
 <!--       <scope>test</scope>-->
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-hikaricp</artifactId>
+      <version>5.2.6.Final</version>
     </dependency>
 
     <!-- Hibernate 5.2.6 Final -->
