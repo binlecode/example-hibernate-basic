@@ -20,7 +20,7 @@ The second ServiceRegistry is the `org.hibernate.boot.registry.StandardServiceRe
 You will almost always need to configure the StandardServiceRegistry, 
 which is done through `org.hibernate.boot.registry.StandardServiceRegistryBuilder`.
 
-#### 2. building of an org.hibernate.boot.Metadata
+#### 2. building of org.hibernate.boot.Metadata
 
 Second step is the building of an `org.hibernate.boot.Metadata` object containing the parsed 
 representations of an application domain model and its mapping to a database. 
@@ -31,17 +31,30 @@ This is the purpose of `org.hibernate.boot.MetadataSources`.
 
 Final step in native bootstrapping is to build the SessionFactory.
 
-## Connection provider
+## Connection provider and custom connection pool
 
-Hibernate connects to database by either connection provider or dataSource.
+Hibernate connects to database by connection provider or custom connection pool configuration.
 
 The ConnectionProvider to use is defined by the `hibernate.connection.provider_class` property,
 which is usually not customized. 
 If not set, by default Hibernate will use its built-in connection pool (not recommended for production).
 This example uses Hibernate built-in pool.
 
-To set dataSource instead, use `hibernate.connection.datasource` property.
-Do remember to set `hibernate.connection.driver_class` to map to related driver class name.
+For production, we should use high-performance connection pools, such as `c3p0`, `hikari`, etc. 
+They are supported by Hibernate with supporting libraries such as 
+[`hibernate-c3p0`](https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0), 
+[`hibernate-hikaricp`](https://mvnrepository.com/artifact/org.hibernate/hibernate-hikaricp), etc.
+
+<pre>
+Note that it is error prone to directly set up a datasource in hibernate service registry,
+in such case Hibernate doesn't know of the pool setting within the dataSource object. 
+</pre>
+
+For example, for Hikari pool, we should set properties like `hibernate.hikari.xxx` to let Hibernate setup 
+connection pool.
+
+See Hibernate [official doc](https://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#database-connectionprovider)
+for detailed configuration for different pool settings.
 
 ## Exception handling
 

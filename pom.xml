@@ -25,11 +25,24 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 <!--       <scope>test</scope>-->
     </dependency>
 
+    <!-- Hibernate support of HikariCP -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-hikaricp</artifactId>
       <version>5.2.6.Final</version>
     </dependency>
+    <!-- OPTIONAL: add slf4j as it is used by hikari pool out-of-box -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+    <!-- end of OPTIONAL -->
 
     <!-- Hibernate 5.2.6 Final -->
     <dependency>

@@ -30,16 +30,23 @@ public class HibernateUtilCustomPool {
                 settings.put(Environment.SHOW_SQL, "true");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
 
-                settings.put("hibernate.connection.driver_class", "org.h2.Driver");
-                settings.put("hibernate.connection.url", "jdbc:h2:./testDb3");
-                settings.put("hibernate.connection.username", "sa");
+                settings.put(Environment.DRIVER, "org.h2.Driver");
+                settings.put(Environment.URL, "jdbc:h2:./testDb3");
+                settings.put(Environment.USER, "sa");
 
-                // Generally speaking, applications should not have to configure a ConnectionProvider
-                // explicitly if using one of the Hibernate-provided implementations.
+                // Applications should not have to configure a ConnectionProvider
+                // explicitly if using one of the Hibernate-provided implementations, such as c3p0, hikari, etc.
                 // Hibernate will internally determine which ConnectionProvider to use based on settings.
+                // note that the values are all in String
 
-                settings.put("hibernate.hikari.maximumPoolSize", "5");
-                settings.put("hibernate.hikari.idleTimeout", "120000");
+                // Maximum waiting time for a connection from the pool
+                settings.put("hibernate.hikari.connectionTimeout", "20000");
+                // Minimum number of ideal connections in the pool
+                settings.put("hibernate.hikari.minimumIdle", "2");      // default -1
+                // Maximum number of actual connection in the pool
+                settings.put("hibernate.hikari.maximumPoolSize", "5");  // default 10
+                // Maximum time that a connection is allowed to sit ideal in the pool
+                settings.put("hibernate.hikari.idleTimeout", "120000"); // default 300000
 
                 // Apply settings
                 registryBuilder.applySettings(settings);
