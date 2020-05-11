@@ -1,4 +1,40 @@
 
+# Example of Hibernate Native Bootstrap
+
+
+## Bootstrap steps
+There are three main steps in bootstrapping Hibernate in native way:
+
+#### 1. building of a ServiceRegistry
+
+ServiceRegistry holds the services Hibernate will need during bootstrapping and at run time.
+
+Under the hood, we are concerned with building 2 different ServiceRegistries. 
+First is the org.hibernate.boot.registry.BootstrapServiceRegistry. 
+The BootstrapServiceRegistry is intended to hold services that Hibernate needs at both bootstrap and run time.
+If you are ok with the default behavior of Hibernate in regards to these BootstrapServiceRegistry services,
+(which is quite often the case, especially in stand-alone environments), 
+then building the BootstrapServiceRegistry can be skipped.
+
+The second ServiceRegistry is the `org.hibernate.boot.registry.StandardServiceRegistry`. 
+You will almost always need to configure the StandardServiceRegistry, 
+which is done through `org.hibernate.boot.registry.StandardServiceRegistryBuilder`.
+
+#### 2. building of an org.hibernate.boot.Metadata
+
+Second step is the building of an `org.hibernate.boot.Metadata` object containing the parsed 
+representations of an application domain model and its mapping to a database. 
+We need to provide the source information to be parsed (annotated classes, hbm.xml files, orm.xml files). 
+This is the purpose of `org.hibernate.boot.MetadataSources`.
+
+#### 3. build sessionFactory
+
+Final step in native bootstrapping is to build the SessionFactory.
+
+## Exception handling
+
+A note of exception handling: as a rule of thumb, no exception thrown by Hibernate can be treated as recoverable. 
+Ensure that the Session will be closed by calling the close() method in a finally block.
 
 ## Environment 
 
@@ -16,7 +52,7 @@ By default, H2 will create the `testDb` if not exist when application connects t
    
 ## Hibernate configuration
 
-In the jdbc URL `MODE=MYSQL` is used to mimic mysql DDL and DML, and Hibernate is configured to use Mysql dialect.
+If in jdbc URL `MODE=MYSQL` is set to mimic mysql DDL and DML, then Hibernate is configured to use Mysql dialect.
 
 Typically for vanilla Java application Hibernate is configured by either xml or programmatically. 
 
@@ -24,5 +60,16 @@ Typically for vanilla Java application Hibernate is configured by either xml or 
 - pool settings if connection pooling is needed
 - hibernate ORM settings
 
+Entity and field mapping can be set by either xml or annotation. 
+If set by xml, then the class has to be registered in `hibernate.cfg.xml`. 
+If set by annotation, then the annotated class can either be registered in `hibernate.cfg.xml` or be added to Hibernate registry programmatically.
 
+## Hibernate util class
+
+There are two util classes in this example showing two ways of getting sessionFactory.
+
+- `HibernateUtilWithCfgXml.java`: configuring sessionFactory by cfg xml
+- `HibernateUtilNoCfgXml.java`: configuring sessionFactory programmatically
+
+Both util classes can load external configuration from properties file, thanks to Hibernate's nice `StandardServiceRegistryBuilder#loadProperties()` API.
 
