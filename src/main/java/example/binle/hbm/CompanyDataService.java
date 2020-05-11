@@ -2,26 +2,15 @@ package example.binle.hbm;
 
 import example.binle.hbm.entity.Company;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-public class HibernateDataService {
+public class CompanyDataService {
 
-    // this class in real world is usually a singleton
-    private static HibernateDataService instance = null;
-    private HibernateDataService() {}
+    private SessionFactory sessionFactory;
 
-    // this method should be synchronized in multi-threaded calling environment like web app
-    public static HibernateDataService getInstance() {
-        // there is no need to synchronize the overall method body for every instance request
-        if (instance == null) {
-            // only synchronized the code block of instance check-n-create
-            synchronized (HibernateDataService.class) {
-                if (instance == null) {
-                    instance = new HibernateDataService();
-                }
-            }
-        }
-        return instance;
+    public CompanyDataService(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public void saveCompany() {
@@ -32,7 +21,7 @@ public class HibernateDataService {
         Transaction transaction = null;
 
         try {
-            session = HibernateUtilWithCfgXml.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.getTransaction();
             transaction.begin();
 

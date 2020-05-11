@@ -26,11 +26,12 @@ public class HibernateUtilNoCfgXml {
 
                 // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Map<String, String> settings = new HashMap<>();
-//
+
+                settings.put("hibernate.hbm2ddl.auto", "update");
                 settings.put("hibernate.connection.driver_class", "org.h2.Driver");
-                settings.put("hibernate.connection.url", "jdbc:h2:./testDb;MODE=MYSQL;DATABASE_TO_LOWER=TRUE");
+                settings.put("hibernate.connection.url", "jdbc:h2:./testDb2");
                 settings.put("hibernate.connection.username", "sa");
-                settings.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+                settings.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 
                 // Apply settings
                 registryBuilder.applySettings(settings);
@@ -41,11 +42,19 @@ public class HibernateUtilNoCfgXml {
                 // Create MetadataSources
                 MetadataSources sources = new MetadataSources(registry);
 
+                // add mapping xml file as resource
+                sources.addResource("employee.hbm.xml");
+
+                // add annotated entity by class or by name
+                sources.addAnnotatedClassName("example.binle.hbm.entity.Company");
+
                 // Create Metadata
                 Metadata metadata = sources.getMetadataBuilder().build();
 
                 // Create SessionFactory
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
+
+
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -1,17 +1,46 @@
 package example.binle.hbm;
 
-import example.binle.hbm.entity.Employee;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
-
-import java.util.List;
+import org.hibernate.SessionFactory;
 
 /**
  */
 public class MainApp {
     public static void main(String[] args) {
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-        Session session = HibernateUtilWithCfgXml.getSessionFactory().openSession();
+
+        dbCheck(HibernateUtilWithCfgXml.getSessionFactory());
+
+        CompanyDataService hds = new CompanyDataService(
+                HibernateUtilWithCfgXml.getSessionFactory());
+        hds.saveCompany();
+
+        EmployeeDataService eds = new EmployeeDataService(
+                HibernateUtilWithCfgXml.getSessionFactory());
+        eds.saveEmployee();
+        eds.queryEmployee();
+
+        // explicitly created hibernate registry should be shutdown explicitly
+        HibernateUtilWithCfgXml.shutdown();
+
+        // ** create session factory without cfg xml **
+
+        dbCheck(HibernateUtilNoCfgXml.getSessionFactory());
+
+        CompanyDataService hds2 = new CompanyDataService(
+                HibernateUtilNoCfgXml.getSessionFactory());
+        hds2.saveCompany();
+
+        EmployeeDataService eds2 = new EmployeeDataService(
+                HibernateUtilNoCfgXml.getSessionFactory());
+        eds2.saveEmployee();
+        eds2.queryEmployee();
+
+        // explicitly created hibernate registry should be shutdown explicitly
+        HibernateUtilNoCfgXml.shutdown();
+    }
+
+    protected static void dbCheck(SessionFactory sf) {
+        Session session = sf.openSession();
         session.beginTransaction();
 
         // Check database version
@@ -24,59 +53,6 @@ public class MainApp {
 
         session.getTransaction().commit();
         session.close();
-
-
-        // do some meaningful transaction
-
-//        saveData();
-
-        HibernateDataService hds = HibernateDataService.getInstance();
-        hds.saveCompany();
-
-        System.out.println("--- separation between individual transactions ---");
-
-        queryData();
-
-
-//        HibernateUtil.shutdown();
-        HibernateUtilWithCfgXml.shutdown();
-    }
-
-    protected static void saveData() {
-        Session session = HibernateUtilWithCfgXml.getSessionFactory().openSession();
-        session.beginTransaction();
-
-        saveEmployeeData(session);
-
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    protected static void queryData() {
-        Session session = HibernateUtilWithCfgXml.getSessionFactory().openSession();
-        session.beginTransaction();
-
-        queryEmployeeData(session);
-
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    protected static void saveEmployeeData(Session session) {
-        Employee e1 = new Employee();
-        e1.setId(1);
-        e1.setFirstName("Foo");
-        e1.setLastName(("Bar"));
-        session.save(e1);
-    }
-
-    protected static void queryEmployeeData(Session session) {
-        Query query = session.createQuery("from Employee");
-        List<Employee> employeeList = query.list();
-
-        for (Employee e : employeeList) {
-            System.out.println("employee: " + e);
-        }
     }
 
 }
