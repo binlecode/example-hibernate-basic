@@ -3,6 +3,7 @@ package example.binle.hbm;
 import java.util.HashMap;
 import java.util.Map;
 
+import example.binle.hbm.entity.Business;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -46,6 +47,7 @@ public class HibernateUtilNoCfgXml {
                 sources.addResource("employee.hbm.xml");
 
                 // add annotated entity by class or by name
+                sources.addAnnotatedClass(Business.class);
                 sources.addAnnotatedClassName("example.binle.hbm.entity.Company");
 
                 // Create Metadata

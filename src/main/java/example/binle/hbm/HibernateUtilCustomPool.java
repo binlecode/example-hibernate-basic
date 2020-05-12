@@ -61,6 +61,7 @@ public class HibernateUtilCustomPool {
                 sources.addResource("employee.hbm.xml");
 
                 // add annotated entity by class or by name
+                sources.addAnnotatedClass(example.binle.hbm.entity.Business.class);
                 sources.addAnnotatedClassName("example.binle.hbm.entity.Company");
 
                 // Create Metadata

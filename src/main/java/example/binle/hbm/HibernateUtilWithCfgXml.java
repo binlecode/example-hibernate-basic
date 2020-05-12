@@ -1,5 +1,6 @@
 package example.binle.hbm;
 
+import example.binle.hbm.entity.Business;
 import example.binle.hbm.entity.Company;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -28,6 +29,7 @@ public class HibernateUtilWithCfgXml {
                 // for xml configured mapping classes, they can only be added to metadata via xml file
                 // for annotated mapping entities, they can be added programmatically
                 MetadataSources metadataSources = new MetadataSources(registry)
+                        .addAnnotatedClass(Business.class)
                         .addAnnotatedClass(Company.class);
 
                 Metadata metadata = metadataSources.getMetadataBuilder().build();
