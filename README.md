@@ -65,8 +65,17 @@ for detailed configuration for different pool settings.
 
 ## Exception handling
 
-A note of exception handling: as a rule of thumb, no exception thrown by Hibernate can be treated as recoverable. 
+As a rule of thumb, no exception thrown by Hibernate can be treated as recoverable. 
 Ensure that the Session will be closed by calling the close() method in a finally block.
+
+## DoWithSession
+
+For error handling and transaction control, there are different session management coded in this example:
+- very-basic transaction and session control in nested try-catch blocks, 
+see [`CompanyDataService`](./src/main/java/example/binle/hbm/CompanyDataService.java) class.
+- try-with-resource block and functional interface callback for in-session database logic,
+see [`EmployeeDataService`](./src/main/java/example/binle/hbm/EmployeeDataService.java) class.
+
 
 ## HibernateUtil classes
 
