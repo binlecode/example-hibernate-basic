@@ -76,7 +76,8 @@ There are multiple util classes in this example showing different ways of gettin
 - `HibernateUtilNoCfgXml.java`: configuring sessionFactory programmatically
 - `HibernateUtilCustomPool.java`: configuring sessionFactory programmatically and with custom connection pool
 
-All util classes can load external configuration from properties file, thanks to Hibernate's nice `StandardServiceRegistryBuilder#loadProperties()` API.
+All util classes can load external configuration from properties file, thanks to Hibernate's 
+nice `StandardServiceRegistryBuilder#loadProperties()` API.
 
 ## Environment 
 
